@@ -2,6 +2,7 @@
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_with	verbose		# verbose build (V=1)
 
+%define _alt_kernel %{nil}
 %if "%{_alt_kernel}" != "%{nil}"
 %if 0%{?build_kernels:1}
 %{error:alt_kernel and build_kernels are mutually exclusive}
