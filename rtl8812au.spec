@@ -67,8 +67,8 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %{nil}
 
 %define build_kernel_pkg()\
-%{__make} clean KVER=%{_kernel_ver}\
-%{__make} modules KVER=%{_kernel_ver}\
+%{__make} clean KVER=%{_kernel_ver} KSRC=%{_kernelsrcdir}\
+%{__make} modules KVER=%{_kernel_ver} KSRC=%{_kernelsrcdir}\
 %install_kernel_modules -D installed -m 8812au -d kernel/drivers/net/wireless\
 %{nil}
 
