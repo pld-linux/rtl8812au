@@ -20,20 +20,21 @@ exit 1
 %define		bkpkg	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do echo %%undefine alt_kernel ; [ -z "$n" ] || echo %%define alt_kernel $n ; echo %%build_kernel_pkg ; done)
 
 %define		rel	1
-%define		snap	20140817
+%define		snap	20140901
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
-Version:	4.2.2_7502.20130517
+Version:	4.3.2_11100.20140411
 Release:	0.%{snap}.%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
-URL:		http://www.realtek.com.tw/
-#Source0:	https://github.com/abperiasamy/rtl8812AU_8821AU_linux/archive/v%{version}/%{name}-%{version}.tar.gz
-Source0:	https://github.com/abperiasamy/rtl8812AU_8821AU_linux/archive/master/%{name}-%{version}-%{snap}.tar.gz
-# Source0-md5:	988810755bc6e687d358475861a2a6ca
-Patch0:		disable-CONFIG_IOCTL_CFG80211.patch
-Patch1:		usb-ids.patch
+#Source0:	https://github.com/abperiasamy/rtl8812AU_8821AU_linux/archive/master/%{name}-%{version}-%{snap}.tar.gz
+Source0:	https://github.com/austinmarton/rtl8812au_linux/archive/master/%{name}-%{version}-%{snap}.tar.gz
+# Source0-md5:	693825ab344b68a1217f20ab8dd98b82
+# good luck finding this chip on Realtek website :/
+#URL:		http://www.realtek.com.tw/
+URL:		https://github.com/austinmarton/rtl8812au_linux
+Patch0:		linux-3.11.patch
 BuildRequires:	rpmbuild(macros) >= 1.678
 %{?with_dist_kernel:%{expand:%kbrs}}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -76,9 +77,8 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 
 %prep
 #%setup -q -n %{pname}-%{version}
-%setup -q -n rtl8812AU_8821AU_linux-master
+%setup -q -n rtl8812au_linux-master
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{expand:%bkpkg}
