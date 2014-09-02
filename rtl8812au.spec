@@ -19,7 +19,7 @@ exit 1
 %define		kpkg	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do echo %%undefine alt_kernel ; [ -z "$n" ] || echo %%define alt_kernel $n ; echo %%kernel_pkg ; done)
 %define		bkpkg	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do echo %%undefine alt_kernel ; [ -z "$n" ] || echo %%define alt_kernel $n ; echo %%build_kernel_pkg ; done)
 
-%define		rel	1
+%define		rel	2
 %define		snap	20140901
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
@@ -35,6 +35,7 @@ Source0:	https://github.com/austinmarton/rtl8812au_linux/archive/master/%{name}-
 #URL:		http://www.realtek.com.tw/
 URL:		https://github.com/austinmarton/rtl8812au_linux
 Patch0:		linux-3.11.patch
+Patch1:		disable-debug.patch
 BuildRequires:	rpmbuild(macros) >= 1.678
 %{?with_dist_kernel:%{expand:%kbrs}}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
