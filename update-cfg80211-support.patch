@@ -89,39 +89,51 @@ index 3abcad9..3a5f667 100644
  	}
  }
   	
-@@ -1666,7 +1692,7 @@ static int cfg80211_rtw_set_default_key(struct wiphy *wiphy,
+@@ -1666,7 +1692,11 @@ static int cfg80211_rtw_set_default_key(struct wiphy *wiphy,
  
  static int cfg80211_rtw_get_station(struct wiphy *wiphy,
  				    struct net_device *ndev,
--				    u8 *mac, struct station_info *sinfo)
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
 +				    const u8 *mac, struct station_info *sinfo)
++#else
+ 				    u8 *mac, struct station_info *sinfo)
++#endif
  {
  	int ret = 0;
  	_adapter *padapter = (_adapter *)rtw_netdev_priv(ndev);
-@@ -4070,7 +4096,7 @@ static int cfg80211_rtw_stop_ap(struct wiphy *wiphy, struct net_device *ndev)
+@@ -4070,7 +4096,11 @@ static int cfg80211_rtw_stop_ap(struct wiphy *wiphy, struct net_device *ndev)
  #endif //(LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0))
  
  static int	cfg80211_rtw_add_station(struct wiphy *wiphy, struct net_device *ndev,
--			       u8 *mac, struct station_parameters *params)
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
 +			       const u8 *mac, struct station_parameters *params)
++#else
+ 			       u8 *mac, struct station_parameters *params)
++#endif
  {
  	DBG_871X(FUNC_NDEV_FMT"\n", FUNC_NDEV_ARG(ndev));
  	
-@@ -4078,7 +4104,7 @@ static int	cfg80211_rtw_add_station(struct wiphy *wiphy, struct net_device *ndev
+@@ -4078,7 +4104,11 @@ static int	cfg80211_rtw_add_station(struct wiphy *wiphy, struct net_device *ndev
  }
  
  static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev,
--			       u8 *mac)
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
 +			       const u8 *mac)
++#else
+ 			       u8 *mac)
++#endif
  {
  	int ret=0;	
  	_irqL irqL;
-@@ -4169,7 +4195,7 @@ static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
+@@ -4169,7 +4195,11 @@ static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
  }
  
  static int	cfg80211_rtw_change_station(struct wiphy *wiphy, struct net_device *ndev,
--				  u8 *mac, struct station_parameters *params)
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
 +				  const u8 *mac, struct station_parameters *params)
++#else
+ 				  u8 *mac, struct station_parameters *params)
++#endif
  {
  	DBG_871X(FUNC_NDEV_FMT"\n", FUNC_NDEV_ARG(ndev));
  	
@@ -153,12 +165,15 @@ index 3abcad9..3a5f667 100644
  	int ret = 0;
  	int tx_ret;
  	u32 dump_limit = RTW_MAX_MGMT_TX_CNT;
-@@ -5897,7 +5932,7 @@ static void rtw_cfg80211_preinit_wiphy(_adapter *padapter, struct wiphy *wiphy)
+@@ -5897,7 +5932,11 @@ static void rtw_cfg80211_preinit_wiphy(_adapter *padapter, struct wiphy *wiphy)
  #endif
  
  #if defined(CONFIG_PM) && (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0))
--	wiphy->wowlan = wowlan_stub;
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
 +	wiphy->wowlan = &wowlan_stub;
++#else
+ 	wiphy->wowlan = wowlan_stub;
++#endif
  #endif
  
  #if defined(CONFIG_TDLS) && (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
