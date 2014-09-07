@@ -36,6 +36,9 @@ Source0:	https://github.com/austinmarton/rtl8812au_linux/archive/master/%{name}-
 URL:		https://github.com/austinmarton/rtl8812au_linux
 Patch0:		linux-3.11.patch
 Patch1:		disable-debug.patch
+Patch2:		enable-cfg80211-support.patch
+Patch3:		update-cfg80211-support.patch
+Patch4:		warnings.patch
 BuildRequires:	rpmbuild(macros) >= 1.678
 %{?with_dist_kernel:%{expand:%kbrs}}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -80,6 +83,10 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 #%setup -q -n %{pname}-%{version}
 %setup -q -n rtl8812au_linux-master
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 %{expand:%bkpkg}
