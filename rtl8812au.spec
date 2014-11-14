@@ -39,6 +39,7 @@ Patch1:		disable-debug.patch
 Patch2:		enable-cfg80211-support.patch
 Patch3:		update-cfg80211-support.patch
 Patch4:		warnings.patch
+Patch5:		linux-3.13,3.14.patch
 BuildRequires:	rpmbuild(macros) >= 1.678
 %{?with_dist_kernel:%{expand:%kbrs}}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -87,6 +88,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %{expand:%bkpkg}
