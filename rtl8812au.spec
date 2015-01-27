@@ -1,5 +1,4 @@
 # Conditional build:
-%bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_with	verbose		# verbose build (V=1)
 
 %if "%{_alt_kernel}" != "%{nil}"
@@ -42,7 +41,7 @@ Patch4:		warnings.patch
 Patch5:		gcc-4.9.patch
 Patch6:		linux-3.18.patch
 BuildRequires:	rpmbuild(macros) >= 1.678
-%{?with_dist_kernel:%{expand:%kbrs}}
+%{expand:%kbrs}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,10 +53,8 @@ Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 Release:	%{rel}@%{_kernel_ver_str}\
 Group:		Base/Kernel\
 Requires(post,postun):	/sbin/depmod\
-%if %{with dist_kernel}\
 %requires_releq_kernel\
 Requires(postun):	%releq_kernel\
-%endif\
 \
 %description -n kernel%{_alt_kernel}-net-rtl8812au\
 Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
