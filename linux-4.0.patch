@@ -1,0 +1,59 @@
+--- rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c.orig	2015-04-18 20:34:59.846186483 +0200
++++ rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c	2015-04-18 20:36:51.399524482 +0200
+@@ -1736,16 +1736,32 @@
+ 			goto exit;
+ 		}
+ 
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,0,0))
++		sinfo->filled |= BIT(NL80211_STA_INFO_SIGNAL);
++#else
+ 		sinfo->filled |= STATION_INFO_SIGNAL;
++#endif
+ 		sinfo->signal = translate_percentage_to_dbm(padapter->recvpriv.signal_strength);
+ 
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,0,0))
++		sinfo->filled |= BIT(NL80211_STA_INFO_TX_BITRATE);
++#else
+ 		sinfo->filled |= STATION_INFO_TX_BITRATE;
++#endif
+ 		sinfo->txrate.legacy = rtw_get_cur_max_rate(padapter);
+ 
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,0,0))
++		sinfo->filled |= BIT(NL80211_STA_INFO_RX_PACKETS);
++#else
+ 		sinfo->filled |= STATION_INFO_RX_PACKETS;
++#endif
+ 		sinfo->rx_packets = sta_rx_data_pkts(psta);
+ 
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,0,0))
++		sinfo->filled |= BIT(NL80211_STA_INFO_TX_PACKETS);
++#else
+ 		sinfo->filled |= STATION_INFO_TX_PACKETS;
++#endif
+ 		sinfo->tx_packets = psta->sta_stats.tx_pkts;
+ 
+ 	}
+@@ -3425,7 +3425,9 @@
+ 			ie_offset = _REASOCREQ_IE_OFFSET_;
+ 	
+ 		sinfo.filled = 0;
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,0,0))
+ 		sinfo.filled = STATION_INFO_ASSOC_REQ_IES;
++#endif
+ 		sinfo.assoc_req_ies = pmgmt_frame + WLAN_HDR_A3_LEN + ie_offset;
+ 		sinfo.assoc_req_ies_len = frame_len - WLAN_HDR_A3_LEN - ie_offset;
+ 		cfg80211_new_sta(ndev, GetAddr2Ptr(pmgmt_frame), &sinfo, GFP_ATOMIC);
+--- rtl8812au_linux-master/os_dep/linux/rtw_android.c~	2014-07-21 15:06:45.000000000 +0200
++++ rtl8812au_linux-master/os_dep/linux/rtw_android.c	2015-04-18 20:42:32.736205424 +0200
+@@ -342,7 +342,11 @@
+ {
+ 	int cmd_num;
+ 	for(cmd_num=0 ; cmd_num<ANDROID_WIFI_CMD_MAX; cmd_num++)
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,0,0))
++		if(0 == strncasecmp(cmdstr , android_wifi_cmd_str[cmd_num], strlen(android_wifi_cmd_str[cmd_num])) )
++#else
+ 		if(0 == strnicmp(cmdstr , android_wifi_cmd_str[cmd_num], strlen(android_wifi_cmd_str[cmd_num])) )
++#endif
+ 			break;
+ 
+ 	return cmd_num;
