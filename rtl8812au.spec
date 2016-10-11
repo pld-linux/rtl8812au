@@ -4,7 +4,7 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	12
+%define		rel	13
 %define		snap	20140901
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
@@ -32,6 +32,7 @@ Patch9:		linux-4.2.patch
 Patch10:	linux-4.3.patch
 Patch11:	linux-4.6.patch
 Patch12:	linux-4.7.patch
+Patch13:	linux-4.8.patch
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -86,6 +87,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %build
 %{expand:%build_kernel_packages}

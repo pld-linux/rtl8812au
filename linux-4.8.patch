@@ -1,0 +1,17 @@
+--- rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c.orig	2016-10-11 22:43:33.301619693 +0200
++++ rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c	2016-10-11 22:45:03.937470268 +0200
+@@ -1946,7 +1946,14 @@
+ 		}
+ 		else
+ 		{
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 8, 0)
++		struct cfg80211_scan_info info = {
++			.aborted = aborted
++		};
++			cfg80211_scan_done(pwdev_priv->scan_request, &info);
++#else
+ 			cfg80211_scan_done(pwdev_priv->scan_request, aborted);
++#endif
+ 		}
+ 
+ 		pwdev_priv->scan_request = NULL;
