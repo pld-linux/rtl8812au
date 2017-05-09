@@ -1,0 +1,12 @@
+--- rtl8812au_linux-master/include/osdep_service_linux.h~	2014-07-21 15:06:45.000000000 +0200
++++ rtl8812au_linux-master/include/osdep_service_linux.h	2017-05-10 00:55:04.866491028 +0200
+@@ -46,6 +46,9 @@
+ #endif
+ 	#include <linux/sem.h>
+ 	#include <linux/sched.h>
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,11,0))
++	#include <linux/sched/signal.h>
++#endif
+ 	#include <linux/etherdevice.h>
+ 	#include <linux/wireless.h>
+ 	#include <net/iw_handler.h>
