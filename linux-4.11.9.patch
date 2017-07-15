@@ -1,0 +1,27 @@
+--- rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c~	2017-07-15 22:35:08.000000000 +0900
++++ rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c	2017-07-15 22:35:33.436437371 +0900
+@@ -3792,7 +3792,12 @@
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,1,0))
+ 	mon_ndev->name_assign_type = name_assign_type;
+ #endif
++ #if (LINUX_VERSION_CODE < KERNEL_VERSION(4,11,9))
+ 	mon_ndev->destructor = rtw_ndev_destructor;
++#else
++	mon_ndev->needs_free_netdev = true;
++	mon_ndev->priv_destructor = rtw_ndev_destructor;
++#endif
+ 	
+ #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))
+ 	mon_ndev->netdev_ops = &rtw_cfg80211_monitor_if_ops;
+--- rtl8812au_linux-master/os_dep/linux/os_intfs.c~	2017-07-15 22:29:21.000000000 +0900
++++ rtl8812au_linux-master/os_dep/linux/os_intfs.c	2017-07-15 22:34:47.048201499 +0900
+@@ -2651,7 +2651,9 @@
+ 	if (ndev->ieee80211_ptr)
+ 		rtw_mfree((u8 *)ndev->ieee80211_ptr, sizeof(struct wireless_dev));
+ #endif
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,11,9))
+ 	free_netdev(ndev);
++#endif
+ }
+ 
+ #ifdef CONFIG_ARP_KEEP_ALIVE
