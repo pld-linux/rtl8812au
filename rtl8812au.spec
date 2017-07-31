@@ -35,6 +35,7 @@ Patch12:	linux-4.7.patch
 Patch13:	linux-4.8.patch
 Patch14:	linux-4.11.patch
 Patch15:	linux-4.11.9.patch
+Patch16:	linux-4.12.patch
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -92,6 +93,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 %build
 %{expand:%build_kernel_packages}
