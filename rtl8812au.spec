@@ -1,10 +1,12 @@
+# TODO: consider migrating to https://github.com/zebulon2/rtl8812au / https://aur.archlinux.org/packages/rtl8812au-v5-dkms-git/
+#
 # Conditional build:
 %bcond_with	verbose		# verbose build (V=1)
 
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	15
+%define		rel	16
 %define		snap	20140901
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter

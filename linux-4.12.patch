@@ -1,14 +1,101 @@
---- rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c~	2017-07-31 23:54:36.000000000 +0200
-+++ rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c	2017-07-31 23:58:19.371143221 +0200
-@@ -5991,7 +5991,11 @@
+From 1d3af1e8e931f6fee3ceb26cee4c8b214bb8384c Mon Sep 17 00:00:00 2001
+From: Mauro Rossi <issor.oruam@gmail.com>
+Date: Sat, 13 May 2017 22:30:17 +0200
+Subject: [PATCH] rtl8812au: add support for kernel 4.12
+
+/home/utente/nougat-x86_kernel_49/kernel/os_dep/linux/ioctl_cfg80211.c:803:3:
+error: too many arguments to function 'cfg80211_roamed'
+   cfg80211_roamed(padapter->pnetdev
+   ^
+
+/home/utente/nougat-x86_kernel_49/kernel/os_dep/linux/ioctl_cfg80211.c:6580:18:
+error: 'WIPHY_FLAG_SUPPORTS_SCHED_SCAN' undeclared (first use in this function)
+  wiphy->flags |= WIPHY_FLAG_SUPPORTS_SCHED_SCAN;
+                  ^
+---
+ os_dep/linux/ioctl_cfg80211.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/os_dep/linux/ioctl_cfg80211.c b/os_dep/linux/ioctl_cfg80211.c
+index e040059..1cca0dd 100755
+--- a/os_dep/linux/ioctl_cfg80211.c
++++ b/os_dep/linux/ioctl_cfg80211.c
+@@ -794,16 +794,32 @@ void rtw_cfg80211_indicate_connect(_adapter *padapter)
+ 		struct ieee80211_channel *notify_channel;
+ 		u32 freq;
+ 		u16 channel = cur_network->network.Configuration.DSConfig;
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
++		struct cfg80211_roam_info roam_info = {};
++#endif
+ 
+ 		if (channel <= RTW_CH_MAX_2G_CHANNEL)
+ 			freq = rtw_ieee80211_channel_to_frequency(channel, IEEE80211_BAND_2GHZ);
+ 		else
+ 			freq = rtw_ieee80211_channel_to_frequency(channel, IEEE80211_BAND_5GHZ);
+
+ 		notify_channel = ieee80211_get_channel(wiphy, freq);
+ 		#endif
+ 
+ 		DBG_871X(FUNC_ADPT_FMT" call cfg80211_roamed\n", FUNC_ADPT_ARG(padapter));
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
++		roam_info.channel = notify_channel;
++		roam_info.bssid = cur_network->network.MacAddress;
++		roam_info.req_ie =
++			pmlmepriv->assoc_req+sizeof(struct rtw_ieee80211_hdr_3addr)+2;
++		roam_info.req_ie_len =
++			pmlmepriv->assoc_req_len-sizeof(struct rtw_ieee80211_hdr_3addr)-2;
++		roam_info.resp_ie =
++			pmlmepriv->assoc_rsp+sizeof(struct rtw_ieee80211_hdr_3addr)+6;
++		roam_info.resp_ie_len =
++			pmlmepriv->assoc_rsp_len-sizeof(struct rtw_ieee80211_hdr_3addr)-6;
++		cfg80211_roamed(padapter->pnetdev, &roam_info, GFP_ATOMIC);
++#else
+ 		cfg80211_roamed(padapter->pnetdev
+ 			#if LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 39) || defined(COMPAT_KERNEL_RELEASE)
+ 			, notify_channel
+@@ -810,6 +826,7 @@ void rtw_cfg80211_indicate_connect(_adapter *padapter)
+ 			, pmlmepriv->assoc_rsp+sizeof(struct rtw_ieee80211_hdr_3addr)+6
+ 			, pmlmepriv->assoc_rsp_len-sizeof(struct rtw_ieee80211_hdr_3addr)-6
+ 			, GFP_ATOMIC);
++#endif
+ 	}
+ 	else
+ 	{
+@@ -6577,7 +6594,11 @@ static void rtw_cfg80211_preinit_wiphy(_adapter *adapter, struct wiphy *wiphy)
  #endif
  
  #if defined(CONFIG_PM) && (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0))
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
-+	wiphy->max_sched_scan_reqs = 1;
-+#else
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,12,0))
  	wiphy->flags |= WIPHY_FLAG_SUPPORTS_SCHED_SCAN;
++#else // kernel >= 4.12
++	wiphy->max_sched_scan_reqs = 1;
 +#endif
  #ifdef CONFIG_PNO_SUPPORT
  	wiphy->max_sched_scan_ssids = MAX_PNO_LIST_COUNT;
  #endif
+--- rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c~	2017-08-01 11:09:27.000000000 +0200
++++ rtl8812au_linux-master/os_dep/linux/ioctl_cfg80211.c	2017-08-01 11:11:56.007409963 +0200
+@@ -1824,7 +1824,11 @@
+ */
+ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
+ 				     struct net_device *ndev,
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,12,0))
+ 				     enum nl80211_iftype type, u32 *flags,
++#else
++				     enum nl80211_iftype type,
++#endif
+ 				     struct vif_params *params)
+ {
+ 	enum nl80211_iftype old_type;
+@@ -3882,7 +3882,11 @@
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,1,0))
+ 		unsigned char name_assign_type,
+ #endif
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,12,0))
+ 		enum nl80211_iftype type, u32 *flags, struct vif_params *params)
++#else
++		enum nl80211_iftype type, struct vif_params *params)
++#endif
+ {
+ 	int ret = 0;
+ 	struct net_device* ndev = NULL;
