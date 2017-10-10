@@ -1,6 +1,7 @@
---- rtl8812au_linux-master/core/rtw_debug.c~	2014-07-21 15:06:45.000000000 +0200
-+++ rtl8812au_linux-master/core/rtw_debug.c	2014-12-11 21:38:17.142784499 +0100
-@@ -62,8 +62,15 @@
+diff -ur -x '*~' rtl8812AU_linux_v5.1.5_19247.20160830/core/rtw_debug.c rtl8812AU_linux_v5.1.5_19247.20160830-gcc/core/rtw_debug.c
+--- rtl8812AU_linux_v5.1.5_19247.20160830/core/rtw_debug.c	2016-08-30 04:28:15.000000000 +0200
++++ rtl8812AU_linux_v5.1.5_19247.20160830-gcc/core/rtw_debug.c	2017-10-10 21:57:47.919763413 +0200
+@@ -46,8 +46,15 @@
  
  void dump_drv_version(void *sel)
  {
@@ -8,11 +9,11 @@
 +#pragma GCC diagnostic push
 +#pragma GCC diagnostic ignored "-Wdate-time"
 +#endif
- 	DBG_871X_SEL_NL(sel, "%s %s\n", DRV_NAME, DRIVERVERSION);
- 	DBG_871X_SEL_NL(sel, "build time: %s %s\n", __DATE__, __TIME__);
+ 	RTW_PRINT_SEL(sel, "%s %s\n", DRV_NAME, DRIVERVERSION);
+ 	RTW_PRINT_SEL(sel, "build time: %s %s\n", __DATE__, __TIME__);
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
 +#pragma GCC diagnostic pop
 +#endif
  }
  
- void dump_log_level(void *sel)
+ void dump_drv_cfg(void *sel)

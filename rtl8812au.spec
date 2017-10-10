@@ -1,4 +1,3 @@
-# TODO: consider migrating to https://github.com/zebulon2/rtl8812au / https://aur.archlinux.org/packages/rtl8812au-v5-dkms-git/
 #
 # Conditional build:
 %bcond_with	verbose		# verbose build (V=1)
@@ -6,38 +5,22 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	16
-%define		snap	20140901
+%define		rel	1
+%define		snap	20171010
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
-Version:	4.3.2_11100.20140411
+Version:	5.1.5_19247.20160830
 Release:	0.%{snap}.%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
-#Source0:	https://github.com/abperiasamy/rtl8812AU_8821AU_linux/archive/master/%{name}-%{version}-%{snap}.tar.gz
-Source0:	https://github.com/austinmarton/rtl8812au_linux/archive/master/%{pname}-%{version}-%{snap}.tar.gz
-# Source0-md5:	693825ab344b68a1217f20ab8dd98b82
+Source0:	https://github.com/zebulon2/rtl8812au/archive/v5.1.5/%{pname}-%{version}-%{snap}.tar.gz
+# Source0-md5:	41bc57b642e5eda5a449b3b80f0e90fe
 # good luck finding this chip on Realtek website :/
 #URL:		http://www.realtek.com.tw/
-URL:		https://github.com/austinmarton/rtl8812au_linux
-Patch0:		linux-3.11.patch
-Patch1:		disable-debug.patch
-Patch2:		enable-cfg80211-support.patch
-Patch3:		update-cfg80211-support.patch
-Patch4:		warnings.patch
-Patch5:		gcc-4.9.patch
-Patch6:		linux-3.18.patch
-Patch7:		linux-4.0.patch
-Patch8:		linux-4.1.patch
-Patch9:		linux-4.2.patch
-Patch10:	linux-4.3.patch
-Patch11:	linux-4.6.patch
-Patch12:	linux-4.7.patch
-Patch13:	linux-4.8.patch
-Patch14:	linux-4.11.patch
-Patch15:	linux-4.11.9.patch
-Patch16:	linux-4.12.patch
+#URL:		http://www.tenda.com.cn/product/download/U12.html
+URL:		https://github.com/zebulon2/rtl8812au
+Patch0:		gcc-4.9.patch
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -77,25 +60,8 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %{expand:%create_kernel_packages}
 
 %prep
-#%setup -q -n %{pname}-%{version}
-%setup -q -n rtl8812au_linux-master
+%setup -q -n %{pname}-5.1.5
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
 
 %build
 %{expand:%build_kernel_packages}
