@@ -5,7 +5,7 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	1
+%define		rel	1.1
 %define		snap	20171010
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
@@ -21,6 +21,7 @@ Source0:	https://github.com/zebulon2/rtl8812au/archive/v5.1.5/%{pname}-%{version
 #URL:		http://www.tenda.com.cn/product/download/U12.html
 URL:		https://github.com/zebulon2/rtl8812au
 Patch0:		gcc-4.9.patch
+Patch1:		kernel-4.15.patch
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -62,6 +63,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %prep
 %setup -q -n %{pname}-5.1.5
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{expand:%build_kernel_packages}

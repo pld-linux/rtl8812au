@@ -1,0 +1,37 @@
+diff -ur rtl8812au-5.1.5/include/osdep_service_linux.h rtl8812au-5.1.5-4.15/include/osdep_service_linux.h
+--- rtl8812au-5.1.5/include/osdep_service_linux.h	2017-07-30 13:07:06.000000000 +0200
++++ rtl8812au-5.1.5-4.15/include/osdep_service_linux.h	2018-01-30 09:39:19.303035056 +0100
+@@ -273,9 +273,13 @@
+ __inline static void _init_timer(_timer *ptimer, _nic_hdl nic_hdl, void *pfunc, void *cntx)
+ {
+ 	/* setup_timer(ptimer, pfunc,(u32)cntx);	 */
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
++	timer_setup(ptimer, pfunc, 0);
++#else
+ 	ptimer->function = pfunc;
+ 	ptimer->data = (unsigned long)cntx;
+ 	init_timer(ptimer);
++#endif
+ }
+ 
+ __inline static void _set_timer(_timer *ptimer, u32 delay_time)
+diff -ur rtl8812au-5.1.5/os_dep/linux/recv_linux.c rtl8812au-5.1.5-4.15/os_dep/linux/recv_linux.c
+--- rtl8812au-5.1.5/os_dep/linux/recv_linux.c	2017-07-30 13:07:06.000000000 +0200
++++ rtl8812au-5.1.5-4.15/os_dep/linux/recv_linux.c	2018-01-30 10:00:34.479700310 +0100
+@@ -789,10 +789,15 @@
+ #endif
+ 
+ }
+-void _rtw_reordering_ctrl_timeout_handler(void *FunctionContext);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,15,0)
++void _rtw_reordering_ctrl_timeout_handler(struct timer_list *timer)
++{
++	struct recv_reorder_ctrl *preorder_ctrl = from_timer(preorder_ctrl, timer, reordering_ctrl_timer);
++#else
+ void _rtw_reordering_ctrl_timeout_handler(void *FunctionContext)
+ {
+ 	struct recv_reorder_ctrl *preorder_ctrl = (struct recv_reorder_ctrl *)FunctionContext;
++#endif
+ 	rtw_reordering_ctrl_timeout_handler(preorder_ctrl);
+ }
+ 
