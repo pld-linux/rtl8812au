@@ -30,7 +30,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter.
 %define	kernel_pkg()\
 %package -n kernel%{_alt_kernel}-net-rtl8812au\
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
-Release:	%{rel}@%{_kernel_ver_str}\
+Release:	0.%{snap}.%{rel}@%{_kernel_ver_str}\
 Group:		Base/Kernel\
 Requires(post,postun):	/sbin/depmod\
 %requires_releq_kernel\
