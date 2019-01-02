@@ -11,7 +11,7 @@
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
 Version:	5.2.20.2
-Epoch:		1
+Epoch:		2
 Release:	0.%{snap}.%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
