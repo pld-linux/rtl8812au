@@ -1,0 +1,47 @@
+From 6faa3eaf8916667cb7f4ab59923b3608e6ab7b18 Mon Sep 17 00:00:00 2001
+From: gordboy <35108003+gordboy@users.noreply.github.com>
+Date: Mon, 20 May 2019 21:29:44 +0100
+Subject: [PATCH] Update README.md for 5.2 kernel fix
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index 074018d..98238ab 100644
+--- a/README.md
++++ b/README.md
+@@ -4,7 +4,7 @@
+ 
+ Only supports 8812AU chipset.
+ 
+-Works fine with 5.1-rc1 kernel. Source now builds with no warnings or errors.
++Works fine with 5.2-rc1 kernel. Source now builds with no warnings or errors.
+ 
+ Greatly improved stability due to huge rewrite of phydm - "4 second glitch" seems to have been fixed, or at least vastly reduced, in driver version 5.2.20.2.
+ 
+From b353639a70631dc6c88af3cbea1ff7b28b888630 Mon Sep 17 00:00:00 2001
+From: Hansruedi Patzen <hp@revy.ch>
+Date: Tue, 14 May 2019 15:10:12 +0200
+Subject: [PATCH] linux-5.2: disable fallback from rtw_select_queue
+
+The fallback parameter has been removed in the latest kernel (>= 5.2)
+
+See: https://github.com/torvalds/linux/commit/a350eccee5830d9a1f29e393a88dc05a15326d44
+---
+ os_dep/linux/os_intfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/os_dep/linux/os_intfs.c b/os_dep/linux/os_intfs.c
+index 5da6a49..49ce4d8 100644
+--- a/os_dep/linux/os_intfs.c
++++ b/os_dep/linux/os_intfs.c
+@@ -1286,7 +1286,7 @@ static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb
+   #else
+     , struct net_device *sb_dev
+   #endif
+-  #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
++  #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0) && LINUX_VERSION_CODE < KERNEL_VERSION(5, 2, 0))
+ 	  , select_queue_fallback_t fallback
+   #endif
+ #endif
