@@ -5,23 +5,21 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	3
-%define		snap	20190309
+%define		rel	1
+%define		snap	20200404
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
-Version:	5.2.20.2
+Version:	5.6.4.2
 Epoch:		2
 Release:	0.%{snap}.%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
-Source0:	https://github.com/gordboy/rtl8812au/archive/master/%{pname}-%{version}-%{snap}.tar.gz
-# Source0-md5:	5b5b12a758b949dd6fd76fe557084462
-Patch0:		kernel-5.1.patch
-Patch1:		kernel-5.2.patch
+Source0:	https://github.com/gordboy/rtl8812au-5.6.4.2/archive/master/%{pname}-%{version}-%{snap}.tar.gz
+# Source0-md5:	17279471a17d6695bd8cd4ddda93b20f
 # good luck finding this chip on Realtek website :/
 #URL:		http://www.realtek.com.tw/
-URL:		https://github.com/gordboy/rtl8812au
+URL:		https://github.com/gordboy/rtl8812au-5.6.4.2
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -62,9 +60,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %{expand:%create_kernel_packages}
 
 %prep
-%setup -q -n %{pname}-master
-%patch0 -p1
-%patch1 -p1
+%setup -q -n %{pname}-%{version}-master
 
 %build
 %{expand:%build_kernel_packages}
