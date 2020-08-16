@@ -5,7 +5,7 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	1
+%define		rel	2
 %define		basever	5.6.4.2
 %define		snap	20200815
 %define		pname	rtl8812au
