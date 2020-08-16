@@ -10,9 +10,9 @@
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
-Version:	5.6.4.2
+Version:	5.6.4.2.%{snap}
 Epoch:		1
-Release:	0.%{snap}.%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
+Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
 Source0:	https://github.com/gordboy/rtl8812au-5.6.4.2/archive/master/%{pname}-%{version}-%{snap}.tar.gz
@@ -30,7 +30,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter.
 %define	kernel_pkg()\
 %package -n kernel%{_alt_kernel}-net-rtl8812au\
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
-Release:	0.%{snap}.%{rel}@%{_kernel_ver_str}\
+Release:	%{rel}@%{_kernel_ver_str}\
 Group:		Base/Kernel\
 Requires(post,postun):	/sbin/depmod\
 %requires_releq_kernel\
