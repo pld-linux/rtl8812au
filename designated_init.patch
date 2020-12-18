@@ -1,0 +1,11 @@
+--- rtl8812au-5.9.3.2-main/include/rtw_mlme_ext.h.orig	2020-12-14 10:07:30.000000000 +0100
++++ rtl8812au-5.9.3.2-main/include/rtw_mlme_ext.h	2020-12-18 21:56:18.623093439 +0100
+@@ -1124,7 +1124,7 @@
+ 
+ int rtw_sae_preprocess(_adapter *adapter, const u8 *buf, u32 len, u8 tx);
+ 
+-#define GEN_MLME_EXT_HANDLER(cmd, callback)	{cmd, callback},
++#define GEN_MLME_EXT_HANDLER(cmd, cback)	{.cmd_hdl = cmd, .callback = cback},
+ 
+ struct rtw_cmd {
+ 	u8(*cmd_hdl)(_adapter *padapter, u8 *pbuf);
