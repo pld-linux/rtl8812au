@@ -1,0 +1,14 @@
+--- rtl8812au-5.9.3.2-main/os_dep/linux/ioctl_cfg80211.c.orig	2020-12-14 10:07:30.000000000 +0100
++++ rtl8812au-5.9.3.2-main/os_dep/linux/ioctl_cfg80211.c	2021-02-25 22:21:04.529544070 +0100
+@@ -456,7 +456,11 @@
+ 
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0))
+ 	if (started) {
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0))
++		cfg80211_ch_switch_started_notify(adapter->pnetdev, &chdef, 0, false);
++#else
+ 		cfg80211_ch_switch_started_notify(adapter->pnetdev, &chdef, 0);
++#endif
+ 		goto exit;
+ 	}
+ #endif
