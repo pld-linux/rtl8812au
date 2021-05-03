@@ -7,7 +7,7 @@
 
 %define		rel	1
 %define		basever	5.9.3.2
-%define		snap	20205203
+%define		snap	20200503
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
