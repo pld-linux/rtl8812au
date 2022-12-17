@@ -7,7 +7,7 @@
 
 %define		rel	1
 %define		basever	20210629
-%define		snap	20220828
+%define		snap	20221217
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
@@ -17,7 +17,7 @@ Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
 Source0:	https://github.com/morrownr/8812au-%{basever}/archive/main/%{pname}-%{version}.tar.gz
-# Source0-md5:	7765728b53771061c3989582b5173afc
+# Source0-md5:	636af61ad3f8a0d55fa7846fb84497b3
 # good luck finding this chip on Realtek website :/
 #URL:		http://www.realtek.com.tw/
 URL:		https://github.com/morrownr/8812au
