@@ -1,0 +1,11 @@
+--- 8812au-20210629-main/Makefile~	2023-05-11 16:37:21.000000000 +0200
++++ 8812au-20210629-main/Makefile	2023-06-07 21:49:05.476523617 +0200
+@@ -2501,7 +2501,7 @@
+ all: modules
+ 
+ modules:
+-	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) M=$(shell pwd)  modules
++	$(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) M=$(shell pwd)  modules
+ 
+ strip:
+ 	$(CROSS_COMPILE)strip $(MODULE_NAME).ko --strip-unneeded
