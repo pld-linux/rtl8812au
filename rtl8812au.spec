@@ -5,9 +5,9 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	2
+%define		rel	1
 %define		basever	20210629
-%define		snap	20230521
+%define		snap	20230730
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
@@ -17,7 +17,7 @@ Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
 Source0:	https://github.com/morrownr/8812au-%{basever}/archive/main/%{pname}-%{version}.tar.gz
-# Source0-md5:	8ae562b54e89a05894fa4daa0de388ec
+# Source0-md5:	a22e4bd750b6c5cc4bae59c8a50c7bf3
 Patch0:		no-arch-override.patch
 # good luck finding this chip on Realtek website :/
 #URL:		http://www.realtek.com.tw/
