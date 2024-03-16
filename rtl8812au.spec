@@ -19,6 +19,7 @@ Group:		Base/Kernel
 Source0:	https://github.com/morrownr/8812au-%{basever}/archive/main/%{pname}-%{version}.tar.gz
 # Source0-md5:	6c0437ca8846ac06b939d29906658537
 Patch0:		no-arch-override.patch
+Patch1:		kernel-strcpy.patch
 # good luck finding this chip on Realtek website :/
 #URL:		http://www.realtek.com.tw/
 URL:		https://github.com/morrownr/8812au
@@ -64,6 +65,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %prep
 %setup -q -n 8812au-%{basever}-main
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{expand:%build_kernel_packages}
