@@ -1,0 +1,12 @@
+--- 8812au-20210820/os_dep/linux/ioctl_cfg80211.c~	2025-04-19 02:03:37.000000000 +0200
++++ 8812au-20210820/os_dep/linux/ioctl_cfg80211.c	2025-04-19 02:07:48.229999557 +0200
+@@ -4650,6 +4650,9 @@
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0))
+ 	struct wireless_dev *wdev,
+ #endif
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 14, 0))
++	unsigned int link_id,
++#endif
+ 	int *dbm)
+ {
+ 	struct dvobj_priv *dvobj = wiphy_to_dvobj(wiphy);
