@@ -5,27 +5,26 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	3
+%define		rel	1
 %define		basever	20210820
-%define		snap	20240527
+%define		snap	20250614
 %define		pname	rtl8812au
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter
 Name:		%{pname}%{_alt_kernel}
 Version:	5.13.6.%{snap}
-Epoch:		2
+Epoch:		1
 Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL
 Group:		Base/Kernel
 # Source0:	https://github.com/morrownr/8812au-%{basever}/archive/main/%{pname}-%{version}.tar.gz
 # git repo without huge blobs with Android SDKs under docs/
 Source0:	%{pname}-%{version}.tar.xz
-# Source0-md5:	a4986d1bd51a7447dc240eb4eefaad27
+# Source0-md5:	bc1212b5a427bf7419a7838837ef4fb7
 Patch0:		no-arch-override.patch
-Patch1:		kernel-6.13.patch
-Patch2:		kernel-6.14.patch
+Patch1:		kernel-6.15.patch
 # good luck finding this chip on Realtek website :/
 #URL:		http://www.realtek.com.tw/
-URL:		https://github.com/morrownr/8812au
+URL:		https://github.com/morrownr/8812au-20210820
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
@@ -69,7 +68,6 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %setup -q -n 8812au-%{basever}
 %patch -P 0 -p1
 %patch -P 1 -p1
-%patch -P 2 -p1
 
 %build
 %{expand:%build_kernel_packages}
