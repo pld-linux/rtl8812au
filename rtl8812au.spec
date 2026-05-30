@@ -5,7 +5,7 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	2
+%define		rel	3
 %define		basever	20210820
 %define		snap	20250614
 %define		pname	rtl8812au
@@ -32,7 +32,7 @@ BuildRoot:	%{tmpdir}/%{pname}-%{version}-root-%(id -u -n)
 %description
 Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter.
 
-%define	kernel_pkg()\
+%define	kernel_pkg() \
 %package -n kernel%{_alt_kernel}-net-rtl8812au\
 Summary:	Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 Release:	%{rel}@%{_kernel_ver_str}\
@@ -56,7 +56,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %depmod %{_kernel_ver}\
 %{nil}
 
-%define build_kernel_pkg()\
+%define build_kernel_pkg() \
 %{__make} clean KVER=%{_kernel_ver} KSRC=%{_kernelsrcdir}\
 %{__make} modules KVER=%{_kernel_ver} KSRC=%{_kernelsrcdir}\
 %install_kernel_modules -D installed -m 8812au -d kernel/drivers/net/wireless\
