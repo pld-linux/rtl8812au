@@ -1,0 +1,11 @@
+--- 8812au-20210820/os_dep/linux/ioctl_cfg80211.c~	2025-06-14 16:30:21.000000000 +0200
++++ 8812au-20210820/os_dep/linux/ioctl_cfg80211.c	2026-08-11 10:11:41.895519400 +0200
+@@ -6903,7 +6903,7 @@
+ #endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0)) */
+ 
+ static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 13, 0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 103))
+ 	, struct net_device *dev
+ 	, struct cfg80211_chan_def *chandef
+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0))
