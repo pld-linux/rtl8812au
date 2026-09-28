@@ -1,0 +1,11 @@
+--- 8812au-20210820/os_dep/linux/usb_intf.c.orig	2025-06-14 16:30:21.000000000 +0200
++++ 8812au-20210820/os_dep/linux/usb_intf.c	2026-09-29 00:52:20.469136588 +0200
+@@ -346,7 +346,7 @@
+ 	.usbdrv.reset_resume   = rtw_resume,
+ #endif
+ 
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 19)) && (LINUX_VERSION_CODE < KERNEL_VERSION(6, 8, 0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 19)) && (LINUX_VERSION_CODE < KERNEL_VERSION(6, 1, 0))
+ 	.usbdrv.drvwrap.driver.shutdown = rtw_dev_shutdown,
+ #else
+ 	.usbdrv.driver.shutdown = rtw_dev_shutdown,
