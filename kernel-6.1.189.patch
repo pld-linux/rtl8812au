@@ -1,0 +1,11 @@
+--- 8812au-20210820/os_dep/linux/ioctl_cfg80211.c~	2026-10-12 00:19:39.000000000 +0200
++++ 8812au-20210820/os_dep/linux/ioctl_cfg80211.c	2026-10-12 00:22:45.367989081 +0200
+@@ -8461,7 +8461,7 @@
+ #else
+ 	u8 *peer,
+ #endif
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 5, 0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 189))
+ 	int link_id,
+ #endif
+ 	u8 action_code,

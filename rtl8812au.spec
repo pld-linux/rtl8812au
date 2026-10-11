@@ -5,7 +5,7 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	5
+%define		rel	6
 %define		basever	20210820
 %define		snap	20250614
 %define		pname	rtl8812au
@@ -24,6 +24,7 @@ Patch0:		no-arch-override.patch
 Patch1:		kernel-6.15.patch
 Patch2:		kernel-6.12.103.patch
 Patch3:		drvwrap.patch
+Patch4:		kernel-6.1.189.patch
 # good luck finding this chip on Realtek website :/
 #URL:		http://www.realtek.com.tw/
 URL:		https://github.com/morrownr/8812au-20210820
@@ -72,6 +73,7 @@ Driver for AC1200 (802.11ac) Wireless Dual-Band USB Adapter\
 %patch -P1 -p1
 %patch -P2 -p1
 %patch -P3 -p1
+%patch -P4 -p1
 
 %build
 %{expand:%build_kernel_packages}
